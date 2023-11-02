@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor
 data class Token (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int? = null,
+        val id: Long? = null,
 
         @Column(nullable = true)
         val accessToken: String? = null,
