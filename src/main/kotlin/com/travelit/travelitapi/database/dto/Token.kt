@@ -1,20 +1,19 @@
 package com.travelit.travelitapi.database.dto
 
 import jakarta.persistence.*
-import jakarta.validation.constraints.NotBlank
 import lombok.AllArgsConstructor
 import lombok.NoArgsConstructor
 
-
 @Entity
-data class User (
+@NoArgsConstructor
+@AllArgsConstructor
+data class Token (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id: Long? = null,
+        val id: Int? = null,
 
-        @NotBlank(message = "Password must not be blank")
-        var userName: String,
+        @Column(nullable = true)
+        val accessToken: String? = null,
         @Column(nullable = false)
-        var password: String,
-
+        val refreshToken: String? = null
 )
