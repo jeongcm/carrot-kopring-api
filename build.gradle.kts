@@ -33,9 +33,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    // token
+    implementation("io.jsonwebtoken:jjwt-api:0.12.0")
+    implementation("io.jsonwebtoken:jjwt-impl:0.12.0")
+    implementation("io.jsonwebtoken:jjwt-jackson:0.12.0")
 
     // Postgresql
     runtimeOnly("org.postgresql:postgresql")  // postgresql driver
@@ -53,6 +54,11 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.22")
     testCompileOnly("org.projectlombok:lombok:1.18.22")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.22")
+
+    // etc
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 tasks.withType<KotlinCompile> {
