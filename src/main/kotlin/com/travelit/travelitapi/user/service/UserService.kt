@@ -4,9 +4,11 @@ import com.travelit.travelitapi.database.dto.Token
 import com.travelit.travelitapi.user.repository.UserRepository
 import com.travelit.travelitapi.database.dto.User
 import org.springframework.stereotype.Service
+import jakarta.transaction.Transactional
 
 @Service
 class UserService(var userRepository: UserRepository, var tokenService: TokenService) {
+    @Transactional
     fun logIn(user: User): Token {
         // 1. find user and check id, password
         val foundUser = userRepository.findByName(user.userName)
