@@ -1,6 +1,7 @@
 package com.travelit.travelitapi.common
 
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.travelit.travelitapi.database.dto.Token
 import java.util.Date
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -21,3 +22,8 @@ data class ResponseDto<T>(
             data = data
     )
 }
+
+data class LogInResponse(
+        val name: String?,
+        val token: Token
+)
