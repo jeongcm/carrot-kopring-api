@@ -19,8 +19,8 @@ open class AuditableEntity {
     var createdDate: Date? = null
 
     @LastModifiedBy
-    var lastModifiedBy: String? = null
+    var updatedBy: String? = null
 
     @LastModifiedDate
-    var lastModifiedDate: Date? = null
+    var updatedAt: Date? = null
 }
