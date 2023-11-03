@@ -4,13 +4,10 @@ import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import lombok.AllArgsConstructor
 import lombok.NoArgsConstructor
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedBy
-import org.springframework.data.annotation.LastModifiedDate
-import java.util.Date
-
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 data class User (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
