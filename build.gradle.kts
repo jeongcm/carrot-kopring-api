@@ -34,9 +34,9 @@ dependencies {
     implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 
     // token
-    implementation("io.jsonwebtoken:jjwt-api:0.12.0")
-    implementation("io.jsonwebtoken:jjwt-impl:0.12.0")
-    implementation("io.jsonwebtoken:jjwt-jackson:0.12.0")
+    implementation("io.jsonwebtoken:jjwt-api:0.12.3")
+    implementation("io.jsonwebtoken:jjwt-impl:0.12.3")
+    implementation("io.jsonwebtoken:jjwt-jackson:0.12.3")
 
     // Postgresql
     runtimeOnly("org.postgresql:postgresql")  // postgresql driver

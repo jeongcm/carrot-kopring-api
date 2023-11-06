@@ -15,7 +15,8 @@ class TokenService {
     private val accessTokenExpiredTime = 30 * 60 * 1000L // 30 min
     private val refreshTokenExpiredTime =  7 * 24 * 60 * 60 * 1000L // 1 week
 
-    private val secretKey = "carrot-secret"
+    // auto generated uuid
+    private val secretKey = "ba072a510e8444cd95cfe75900529619"
     private val issuer = "carrot"
     private val refreshSubject = "refresh"
 
