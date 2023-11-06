@@ -1,10 +1,13 @@
 package com.travelit.travelitapi.user.controller
 
 import com.travelit.travelitapi.common.LogInResponse
+import com.travelit.travelitapi.database.NotFoundEntityException
 import com.travelit.travelitapi.user.service.AccountService
 import com.travelit.travelitapi.database.dto.Token
 import com.travelit.travelitapi.database.dto.Account
+import com.travelit.travelitapi.user.repository.AccountRepository
 import jakarta.validation.Valid
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -31,23 +34,28 @@ class AccountController(var userService: AccountService) {
 
             ResponseEntity.ok(LogInResponse(account.name, token))
         } catch (e: IllegalArgumentException) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("bad request")
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("bad request error. cause: " + e.message)
+        } catch (e: NotFoundEntityException) {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body("not found error. cause: " + e.message)
         } catch (e: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("internal server error:" + e.message)
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("internal server error. cause: " + e.message)
         }
     }
 
     // sign up
     @PostMapping("/signUp")
-    fun signUp(@RequestBody @Valid account: Account): ResponseEntity<Any> {
+    fun signUp(@RequestBody @Valid account: Account, accountRepository: AccountRepository): ResponseEntity<Any> {
         return try {
-            userService.signUp(account)
+//            val foundUser = accountRepository.findByAccountName(account.accountName)
+//                ?.takeIf { it.accountName == account.accountName } ?: throw IllegalArgumentException("중복된 이름입니다.")
 
-            ResponseEntity.ok(account)
+            val res = userService.signUp(account)
+
+            ResponseEntity.ok(res)
         } catch (e: IllegalArgumentException) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("bad request")
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("bad request error. cause: " + e.message)
         } catch (e: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("internal server error:" + e.message)
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("internal server error. cause: " + e.message)
         }
     }
     // follow
