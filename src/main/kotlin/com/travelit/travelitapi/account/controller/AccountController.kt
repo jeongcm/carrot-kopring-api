@@ -1,11 +1,11 @@
-package com.travelit.travelitapi.user.controller
+package com.travelit.travelitapi.account.controller
 
 import com.travelit.travelitapi.common.LogInResponse
 import com.travelit.travelitapi.database.NotFoundEntityException
-import com.travelit.travelitapi.user.service.AccountService
+import com.travelit.travelitapi.account.service.AccountService
 import com.travelit.travelitapi.database.dto.Token
 import com.travelit.travelitapi.database.dto.Account
-import com.travelit.travelitapi.user.repository.AccountRepository
+import com.travelit.travelitapi.account.repository.AccountRepository
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus

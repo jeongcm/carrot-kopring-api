@@ -1,4 +1,4 @@
-package com.travelit.travelitapi.user.repository
+package com.travelit.travelitapi.account.repository
 
 import com.travelit.travelitapi.database.dto.Account
 import org.springframework.data.jpa.repository.JpaRepository

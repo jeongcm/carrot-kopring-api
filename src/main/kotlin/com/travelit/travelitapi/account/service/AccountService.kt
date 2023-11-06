@@ -1,8 +1,8 @@
-package com.travelit.travelitapi.user.service
+package com.travelit.travelitapi.account.service
 
 import com.travelit.travelitapi.database.NotFoundEntityException
 import com.travelit.travelitapi.database.dto.Token
-import com.travelit.travelitapi.user.repository.AccountRepository
+import com.travelit.travelitapi.account.repository.AccountRepository
 import com.travelit.travelitapi.database.dto.Account
 import org.springframework.stereotype.Service
 import jakarta.transaction.Transactional

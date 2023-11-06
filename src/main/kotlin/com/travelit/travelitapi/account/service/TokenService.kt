@@ -1,4 +1,4 @@
-package com.travelit.travelitapi.user.service
+package com.travelit.travelitapi.account.service
 
 import com.travelit.travelitapi.database.dto.Token
 import com.travelit.travelitapi.database.dto.Account
