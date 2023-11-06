@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor
 
 @Entity
 @NoArgsConstructor
-data class User (
+data class Account (
         @Column(nullable = false)
         @NotBlank(message = "name must not be blank")
         var name: String,
