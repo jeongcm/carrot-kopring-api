@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     // Mongo DB
-    implementation("org.springframework.boot:spring-boot-starter-data-mongodb") // mongo db
+//    implementation("org.springframework.boot:spring-boot-starter-data-mongodb") // mongo db
 
     // Graphql
     implementation("org.springframework.boot:spring-boot-starter-graphql")
@@ -44,6 +44,7 @@ dependencies {
     // Web
     testImplementation("org.springframework:spring-webflux")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter")
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")

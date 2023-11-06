@@ -1,13 +1,10 @@
 package com.travelit.travelitapi.user.service
 
-import com.nimbusds.oauth2.sdk.id.Issuer
 import com.travelit.travelitapi.database.dto.Token
-import com.travelit.travelitapi.database.dto.User
+import com.travelit.travelitapi.database.dto.Account
 import io.jsonwebtoken.Claims
-import io.jsonwebtoken.ClaimsBuilder
 import io.jsonwebtoken.security.Keys
 import io.jsonwebtoken.Jwts
-import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Component
 import java.nio.charset.StandardCharsets
 import java.util.*
@@ -27,14 +24,14 @@ class TokenService {
     private val accessTokenHeader: String = "X-AUTH-ACCESS-TOKEN"
 
     private val refreshTokenHeader: String = "X-AUTH-REFRESH-TOKEN"
-    fun createToken (user: User): Token {
+    fun createToken (user: Account): Token {
         val accessToken = createAccessToken(user)
         val refreshToken = createRefreshToken()
 
         return Token(accessToken, refreshToken)
     }
     // 객체 초기화, secretKey를 Base64로 인코딩한다.
-    private fun createAccessToken(user: User): String {
+    private fun createAccessToken(user: Account): String {
         val signKey = Keys.hmacShaKeyFor(secretKey.toByteArray(StandardCharsets.UTF_8))
         val now = Date()
         val expiration = Date(now.time + accessTokenExpiredTime) // 30 min from now

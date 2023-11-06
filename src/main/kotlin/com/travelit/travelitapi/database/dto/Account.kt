@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor
 @NoArgsConstructor
 data class User (
         @Column(nullable = false)
-        @NotBlank(message = "UserName must not be blank")
-        var userName: String,
+        @NotBlank(message = "name must not be blank")
+        var name: String,
 
         @Column(nullable = false)
-        @NotBlank(message = "Password must not be blank")
+        @NotBlank(message = "password must not be blank")
         var password: String,
 
         @Email
@@ -26,4 +26,5 @@ data class User (
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null,
 ): AuditableEntity() {
+        constructor() : this("", "", "")
 }
