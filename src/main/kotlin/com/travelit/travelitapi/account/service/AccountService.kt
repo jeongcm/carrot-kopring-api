@@ -11,23 +11,21 @@ import jakarta.transaction.Transactional
 class AccountService(var accountRepository: AccountRepository, var tokenService: TokenService) {
     @Transactional
     fun logIn(account: Account): Token {
-        // 1. find user and check id, password
-        val foundUser = accountRepository.findByName(account.name) ?: throw NotFoundEntityException("사용자를 찾을 수 없습니다.")
+        accountRepository.findAllByEmail(account.email)?.forEach {
+            if (it.name == account.name) {
+                return tokenService.createToken(account)
+            }
+        }
 
-        //
-
-        // need to make token logic
-        return tokenService.createToken(foundUser)
+        throw NotFoundEntityException("사용자를 찾을 수 없습니다.")
     }
 
     @Transactional
     fun signUp(account: Account): Account {
-
-        val foundUser = accountRepository.findByName(account.name)
-
-        // 중복된 계정입니다.
-        if (foundUser != null && (foundUser.email == account.email)) {
-                throw IllegalArgumentException("중복된 계정입니다.")
+        accountRepository.findAllByName(account.name)?.forEach {
+            if (it.email == account.email) {
+                throw IllegalArgumentException("이미 등록된 이메일입니다.")
+            }
         }
 
         // 1. find user and check id, password
