@@ -3,7 +3,6 @@ package com.travelit.travelitapi.database.dto
 import jakarta.persistence.*
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
-import lombok.Builder
 import lombok.NoArgsConstructor
 
 enum class Role() {
