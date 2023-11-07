@@ -6,6 +6,10 @@ import jakarta.validation.constraints.NotBlank
 import lombok.Builder
 import lombok.NoArgsConstructor
 
+enum class Role() {
+        ADMIN, USER
+}
+
 @Entity
 @NoArgsConstructor
 data class Account (
@@ -22,9 +26,13 @@ data class Account (
         @NotBlank(message = "Email must not be blank")
         var email: String,
 
+        @Enumerated(EnumType.STRING)
+        @Column(nullable = false)
+        var role: Role = Role.USER,
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null,
 ): AuditableEntity() {
-        constructor() : this("", "", "")
+        constructor() : this("", "", "", Role.USER)
 }
