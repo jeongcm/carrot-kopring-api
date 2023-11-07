@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+
 @Configuration
 @EnableWebSecurity
 class SecurityConfig {
@@ -19,4 +21,7 @@ class SecurityConfig {
         }
         .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) } // 세션을 사용하지 않음
         .build()!! // !! 은 null이 아님을 보장
+
+    @Bean
+    fun passwordEncoder() = BCryptPasswordEncoder()
 }

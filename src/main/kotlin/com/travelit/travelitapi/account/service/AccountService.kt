@@ -6,9 +6,10 @@ import com.travelit.travelitapi.account.repository.AccountRepository
 import com.travelit.travelitapi.database.dto.Account
 import org.springframework.stereotype.Service
 import jakarta.transaction.Transactional
+import org.springframework.security.crypto.password.PasswordEncoder
 
 @Service
-class AccountService(var accountRepository: AccountRepository, var tokenService: TokenService) {
+class AccountService(var accountRepository: AccountRepository, var tokenService: TokenService, val encoder: PasswordEncoder) {
     @Transactional
     fun logIn(account: Account): Token {
         accountRepository.findAllByEmail(account.email)?.forEach {
@@ -29,6 +30,6 @@ class AccountService(var accountRepository: AccountRepository, var tokenService:
         }
 
         // 1. find user and check id, password
-        return accountRepository.save(account)
+        return accountRepository.save(Account.from(account, encoder))
     }
 }
