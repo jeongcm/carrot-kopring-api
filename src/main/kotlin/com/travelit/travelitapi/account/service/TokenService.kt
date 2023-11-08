@@ -36,7 +36,6 @@ class TokenService(private val userDetailsService: UserDetailsServiceImpl) {
     fun createToken (account: Account): Token {
         val accessToken = createAccessToken(account)
         val refreshToken = createRefreshToken(account)
-
         return Token(accessToken, refreshToken)
     }
     // 객체 초기화, secretKey를 Base64로 인코딩한다.
@@ -57,7 +56,6 @@ class TokenService(private val userDetailsService: UserDetailsServiceImpl) {
     }
 
     private fun createRefreshToken(account: Account): String {
-        val signKey = Keys.hmacShaKeyFor(secretKey.toByteArray(StandardCharsets.UTF_8))
         val now = Date()
         val expiration = Date(now.time + refreshTokenExpiredTime) // 30 min from now
         val claims = setClaims(account, issuer, now, expiration)
@@ -84,8 +82,12 @@ class TokenService(private val userDetailsService: UserDetailsServiceImpl) {
         return claims["username"] as String
     }
 
-    fun getAuthentication(name: String): Authentication {
-        val userDetails: UserDetails = userDetailsService.loadUserByUsername(name)
+    fun parseSubject(token: String): String {
+        val claims: Claims = getClaims(token)
+        return claims[Claims.SUBJECT] as String
+    }
+    fun getAuthentication(email: String): Authentication {
+        val userDetails: UserDetails = userDetailsService.loadUserByEmail(email)
 
         return UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
     }
@@ -104,6 +106,6 @@ class TokenService(private val userDetailsService: UserDetailsServiceImpl) {
     // 모든 Claims 조회
     private fun getClaims(token: String): Claims {
         val parser: JwtParser = Jwts.parser().verifyWith(signKey).build()
-        return parser.parseUnsecuredClaims(token).payload
+        return parser.parseSignedClaims(token).payload
     }
 }

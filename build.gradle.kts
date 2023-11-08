@@ -28,6 +28,11 @@ dependencies {
 
     // OAuth 2.0 Client
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client") // oauth
+
+    // spring security
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.security:spring-security-test")
+
     // Jakarta Persistence API
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")

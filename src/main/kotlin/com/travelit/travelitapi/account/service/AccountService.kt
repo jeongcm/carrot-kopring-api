@@ -9,7 +9,11 @@ import jakarta.transaction.Transactional
 import org.springframework.security.crypto.password.PasswordEncoder
 
 @Service
-class AccountService(var accountRepository: AccountRepository, var tokenService: TokenService, val encoder: PasswordEncoder) {
+class AccountService(
+    private val accountRepository: AccountRepository,
+    private val tokenService: TokenService,
+    private val encoder: PasswordEncoder,
+    ) {
     @Transactional
     fun logIn(account: Account): Token {
         accountRepository.findAllByEmail(account.email)?.forEach {

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 class AccountController(var userService: AccountService) {
     // test
 
-    @GetMapping("/")
+    @GetMapping("/test")
     fun getAccount(): ResponseEntity<Any> {
         return ResponseEntity.ok("ok")
     }
