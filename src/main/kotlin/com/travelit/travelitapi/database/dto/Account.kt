@@ -6,10 +6,6 @@ import jakarta.validation.constraints.NotBlank
 import lombok.NoArgsConstructor
 import org.springframework.security.crypto.password.PasswordEncoder
 
-enum class Role() {
-        ADMIN, USER
-}
-
 @Entity
 @NoArgsConstructor
 data class Account (
@@ -26,9 +22,8 @@ data class Account (
         @NotBlank(message = "Email must not be blank")
         var email: String,
 
-        @Enumerated(EnumType.STRING)
         @Column(nullable = false)
-        var role: Role = Role.USER,
+        var role: String = "USER",
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,17 +33,19 @@ data class Account (
                 fun from(account: Account, encoder: PasswordEncoder) = Account(
                         name = account.name,
                         password = encoder.encode(account.password),
-                        email = account.email
+                        email = account.email,
+                        role = account.role
                 )
         }
 
         fun update(account: Account, encoder: PasswordEncoder) {	// 파라미터에 PasswordEncoder 추가
                 this.password = account.password
-                        ?.takeIf { it.isNotBlank() }
+                        .takeIf { it.isNotBlank() }
                         ?.let { encoder.encode(it) }	// 추가
                         ?: this.password
                 this.name = account.name
                 this.email = account.email
+                this.role = account.role
         }
-        constructor() : this("", "", "", Role.USER)
+        constructor() : this("", "", "", "USER")
 }

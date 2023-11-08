@@ -10,6 +10,7 @@ import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -21,8 +22,11 @@ import org.springframework.web.bind.annotation.RestController
 class AccountController(var userService: AccountService) {
     // test
 
-    @GetMapping("/test")
+    @GetMapping("/admin")
     fun getAccount(): ResponseEntity<Any> {
+//        println(SecurityContextHolder.getContext().authentication.name)
+//        println(SecurityContextHolder.getContext().authentication.details)
+//        println(SecurityContextHolder.getContext().authentication.authorities)
         return ResponseEntity.ok("ok")
     }
 
