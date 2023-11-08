@@ -4,14 +4,17 @@ import com.travelit.travelitapi.account.repository.AccountRepository
 import com.travelit.travelitapi.database.NotFoundEntityException
 import com.travelit.travelitapi.database.dto.Account
 import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.authority.AuthorityUtils
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.stereotype.Service
+import java.util.stream.Collectors
 
 class UserDetailsImpl(val account: Account) : UserDetails {
     var enabled: Boolean = true
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> = AuthorityUtils.createAuthorityList()
+    var roles: MutableSet<String>  = mutableSetOf()
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
+        roles.add(account.role)
+        return roles.stream().map { role -> SimpleGrantedAuthority("ROLE_$role") }.collect(Collectors.toSet())
+    }
 
     override fun getPassword(): String = account.password
     override fun getUsername(): String = account.name
