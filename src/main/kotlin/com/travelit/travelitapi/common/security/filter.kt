@@ -18,7 +18,6 @@ class JwtAuthenticationFilter(private val tokenService: TokenService) : OncePerR
         val authorizationHeader: String? = request.getHeader("Authorization") ?: return filterChain.doFilter(request, response)
         // Bearer타입 토큰이 있을 때 가져온다.
         val token = authorizationHeader?.substring("Bearer ".length) ?: return filterChain.doFilter(request, response)
-        println("filter token:" + token)
         // 토큰 검증
         if (tokenService.validateToken(token)) {
             // 토큰에서 username 파싱
