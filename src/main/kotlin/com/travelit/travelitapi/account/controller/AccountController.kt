@@ -6,7 +6,9 @@ import com.travelit.travelitapi.account.service.AccountService
 import com.travelit.travelitapi.database.dto.Token
 import com.travelit.travelitapi.database.dto.Account
 import com.travelit.travelitapi.account.repository.AccountRepository
+import com.travelit.travelitapi.common.logger.logger
 import jakarta.validation.Valid
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -21,12 +23,14 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/auth")
 class AccountController(var userService: AccountService) {
     // test
-
+    var logger = logger()
     @GetMapping("/admin")
     fun getAccount(): ResponseEntity<Any> {
 //        println(SecurityContextHolder.getContext().authentication.name)
 //        println(SecurityContextHolder.getContext().authentication.details)
 //        println(SecurityContextHolder.getContext().authentication.authorities)
+        logger.info("hello my log")
+        logger.error("hello my error log")
         return ResponseEntity.ok("ok")
     }
 
