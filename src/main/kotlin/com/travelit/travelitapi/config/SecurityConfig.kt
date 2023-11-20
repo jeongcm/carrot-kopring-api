@@ -19,6 +19,7 @@ class SecurityConfig(val jwtFilter: JwtAuthenticationFilter) {
         }
         .authorizeHttpRequests {
             it.requestMatchers("/","/auth/logIn", "/auth/signUp").permitAll() // 로그인 회원가입 관련 router 와 / 는 인증 제외
+            it.requestMatchers("/actuator","/actuator/**").permitAll() // prometheus test
             it.requestMatchers("/auth/admin").hasRole("ADMIN") // only admin user
                 .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
         }
