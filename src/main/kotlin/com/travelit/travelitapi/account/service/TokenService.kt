@@ -30,9 +30,9 @@ class TokenService(private val userDetailsService: UserDetailsServiceImpl) {
 
     private val cookiePath: String = "/"
 
-    private val accessTokenHeader: String = "X-AUTH-ACCESS-TOKEN"
+    val accessTokenHeader: String = "X-AUTH-ACCESS-TOKEN"
 
-    private val refreshTokenHeader: String = "X-AUTH-REFRESH-TOKEN"
+    val refreshTokenHeader: String = "X-AUTH-REFRESH-TOKEN"
     fun createToken (account: Account): Token {
         val accessToken = createAccessToken(account)
         val refreshToken = createRefreshToken(account)

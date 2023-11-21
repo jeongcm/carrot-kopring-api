@@ -1,15 +1,13 @@
 package com.travelit.travelitapi.common.security.oauth2
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.travelit.travelitapi.account.repository.AccountRepository
 import com.travelit.travelitapi.account.service.TokenService
-import com.travelit.travelitapi.common.logger.logger
 import com.travelit.travelitapi.database.dto.Account
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import lombok.RequiredArgsConstructor
+import org.springframework.http.MediaType
 import org.springframework.security.core.Authentication
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.stereotype.Component
@@ -45,13 +43,13 @@ class OAuth2SuccessHandler(val accountRepository: AccountRepository, val tokenSe
         var token = tokenService.createToken(account)
 
         // response에 토큰 담아서 보냄
-        response.contentType = "text/html;charset=UTF-8"
-        response.addHeader("accessToken", token.accessToken)
-        response.addHeader("refreshToken", token.refreshToken)
-        response.contentType = "application/json;charset=UTF-8"
+        response.contentType = MediaType.TEXT_HTML_VALUE
+        response.addHeader(tokenService.accessTokenHeader, token.accessToken)
+        response.addHeader(tokenService.refreshTokenHeader, token.refreshToken)
+        response.contentType = MediaType.APPLICATION_JSON_VALUE
 
-        val writer = response.writer
-        writer.println(ObjectMapper().writeValueAsString(token))
-        writer.flush()
+//        val writer = response.writer
+//        writer.println(ObjectMapper().writeValueAsString(token))
+//        writer.flush()
     }
 }

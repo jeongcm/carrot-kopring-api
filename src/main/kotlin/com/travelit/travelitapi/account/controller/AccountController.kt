@@ -1,14 +1,16 @@
 package com.travelit.travelitapi.account.controller
 
-import com.travelit.travelitapi.common.LogInResponse
 import com.travelit.travelitapi.database.NotFoundEntityException
 import com.travelit.travelitapi.account.service.AccountService
 import com.travelit.travelitapi.database.dto.Token
 import com.travelit.travelitapi.database.dto.Account
 import com.travelit.travelitapi.account.repository.AccountRepository
+import com.travelit.travelitapi.account.service.TokenService
 import com.travelit.travelitapi.common.logger.logger
 import jakarta.validation.Valid
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/auth")
-class AccountController(var accountService: AccountService) {
+class AccountController(var accountService: AccountService, var tokenService: TokenService) {
     // test
     var logger = logger()
     @GetMapping("/admin")
@@ -37,7 +39,14 @@ class AccountController(var accountService: AccountService) {
         return try {
             val token: Token = accountService.logIn(account)
 
-            ResponseEntity.ok(LogInResponse(account.name, token))
+            val headers = HttpHeaders()
+            headers.add(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML_VALUE) // Content-Type 설정
+            headers.add(tokenService.accessTokenHeader, token.accessToken)
+            headers.add(tokenService.refreshTokenHeader, token.refreshToken)
+            headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) // Content-Type 설정
+
+            return ResponseEntity(null, headers, HttpStatus.OK)
+
         } catch (e: IllegalArgumentException) {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body("bad request error. cause: " + e.message)
         } catch (e: NotFoundEntityException) {
