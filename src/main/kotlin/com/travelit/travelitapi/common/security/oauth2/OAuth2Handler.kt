@@ -22,10 +22,10 @@ class OAuth2SuccessHandler(val accountRepository: AccountRepository, val tokenSe
     override fun onAuthenticationSuccess(request: HttpServletRequest, response: HttpServletResponse, authentication : Authentication) {
         var oAuth2User: OAuth2User = authentication.principal as OAuth2User
 
-
         val account = Account().apply {
             name = oAuth2User.attributes["name"] as String
             email = oAuth2User.attributes["email"] as String
+            provider = oAuth2User.attributes["provider"] as String ?: "custom"
         }
         var existFlag = false
         accountRepository.findAllByName(account.name)?.forEach {

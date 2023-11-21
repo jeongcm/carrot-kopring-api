@@ -23,8 +23,8 @@ class CustomOAuth2UserService : DefaultOAuth2UserService() {
         var userNameAttributeName: String = userRequest?.clientRegistration?.providerDetails?.userInfoEndpoint?.userNameAttributeName ?: "unknown"
         var oAuthAttributes: OAuth2Attribute = OAuth2Attribute.of(registrationId, userNameAttributeName, oAuthUser.attributes)
 
-        var memberAttribute = oAuthAttributes.convertToMap()
-
+        var memberAttribute = oAuthAttributes.convertToMap().toMutableMap()
+        memberAttribute.put("provider", registrationId)
 
         return DefaultOAuth2User(Collections.singleton(SimpleGrantedAuthority("ROLE_USER")), memberAttribute, "email")
     }

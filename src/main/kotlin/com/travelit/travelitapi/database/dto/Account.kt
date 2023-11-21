@@ -24,6 +24,9 @@ data class Account (
         @Column(nullable = false)
         var role: String = "USER",
 
+        @Column(nullable = true)
+        var provider: String = "custom",
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null,
@@ -33,7 +36,8 @@ data class Account (
                         name = account.name,
                         password = encoder.encode(account.password) ?: "",
                         email = account.email,
-                        role = account.role
+                        role = account.role,
+                        provider = account.provider
                 )
         }
 
@@ -45,6 +49,7 @@ data class Account (
                 this.name = account.name
                 this.email = account.email
                 this.role = account.role
+                this.provider = account.provider
         }
-        constructor() : this("", "", "", "USER")
+        constructor() : this("", "", "", "USER", "custom")
 }
