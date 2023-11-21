@@ -2,7 +2,6 @@
 
 ## kotlin-spring-boot-api with oauth2
 
-- 
 - build
   - gradle, graalvm
 - third-party:
