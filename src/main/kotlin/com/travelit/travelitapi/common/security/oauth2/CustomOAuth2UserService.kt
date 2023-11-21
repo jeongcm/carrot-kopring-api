@@ -17,12 +17,12 @@ class CustomOAuth2UserService : DefaultOAuth2UserService() {
     override fun loadUser(userRequest: OAuth2UserRequest?): OAuth2User {
         val oAuthUser = super.loadUser(userRequest)
 
-        var registrationId: String = userRequest?.clientRegistration?.registrationId ?: "unknown"
-        var userNameAttributeName: String = userRequest?.clientRegistration?.providerDetails?.userInfoEndpoint?.userNameAttributeName ?: "unknown"
-        var oAuthAttributes: OAuth2Attribute = OAuth2Attribute.of(registrationId, userNameAttributeName, oAuthUser.attributes)
+        val registrationId: String = userRequest?.clientRegistration?.registrationId ?: "unknown"
+        val userNameAttributeName: String = userRequest?.clientRegistration?.providerDetails?.userInfoEndpoint?.userNameAttributeName ?: "unknown"
+        val oAuthAttributes: OAuth2Attribute = OAuth2Attribute.of(registrationId, userNameAttributeName, oAuthUser.attributes)
 
         // oauth attribute 세팅
-        var memberAttribute = oAuthAttributes.convertToMap().toMutableMap()
+        val memberAttribute = oAuthAttributes.convertToMap().toMutableMap()
         memberAttribute.put("provider", registrationId)
 
         return DefaultOAuth2User(Collections.singleton(SimpleGrantedAuthority("ROLE_USER")), memberAttribute, "email")

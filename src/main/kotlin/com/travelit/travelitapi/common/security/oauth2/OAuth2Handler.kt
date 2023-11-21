@@ -24,7 +24,7 @@ class OAuth2SuccessHandler(val accountRepository: AccountRepository, val tokenSe
         val account = Account().apply {
             name = oAuth2User.attributes["name"] as String
             email = oAuth2User.attributes["email"] as String
-            provider = oAuth2User.attributes["provider"] as String ?: "custom"
+            provider = oAuth2User.attributes["provider"] as String
         }
         var existFlag = false
         accountRepository.findAllByName(account.name)?.forEach {
@@ -40,7 +40,7 @@ class OAuth2SuccessHandler(val accountRepository: AccountRepository, val tokenSe
         }
 
         // 토큰 발행
-        var token = tokenService.createToken(account)
+        val token = tokenService.createToken(account)
 
         // response에 토큰 담아서 보냄
         response.contentType = MediaType.TEXT_HTML_VALUE

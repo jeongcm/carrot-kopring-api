@@ -10,7 +10,6 @@ import io.jsonwebtoken.security.Keys
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Component
 import java.nio.charset.StandardCharsets
 import java.util.*
@@ -25,10 +24,7 @@ class TokenService(private val userDetailsService: UserDetailsServiceImpl) {
     // auto generated uuid
     private val secretKey = "ba072a510e8444cd95cfe75900529619"
     private val issuer = "carrot"
-    private val refreshSubject = "refresh"
     private val signKey = Keys.hmacShaKeyFor(secretKey.toByteArray(StandardCharsets.UTF_8))
-
-    private val cookiePath: String = "/"
 
     val accessTokenHeader: String = "X-AUTH-ACCESS-TOKEN"
 
@@ -75,11 +71,6 @@ class TokenService(private val userDetailsService: UserDetailsServiceImpl) {
         val exp: Date = claims.expiration
         val now = Date()
         return exp.after(now)
-    }
-
-    fun parseUsername(token: String): String {
-        val claims: Claims = getClaims(token)
-        return claims["username"] as String
     }
 
     fun parseSubject(token: String): String {

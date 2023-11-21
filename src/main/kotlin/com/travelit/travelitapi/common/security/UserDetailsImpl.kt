@@ -1,7 +1,5 @@
 package com.travelit.travelitapi.common.security
 
-import com.travelit.travelitapi.account.repository.AccountRepository
-import com.travelit.travelitapi.database.NotFoundEntityException
 import com.travelit.travelitapi.database.dto.Account
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
