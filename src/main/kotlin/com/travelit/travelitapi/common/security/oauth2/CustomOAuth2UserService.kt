@@ -28,8 +28,4 @@ class CustomOAuth2UserService : DefaultOAuth2UserService() {
 
         return DefaultOAuth2User(Collections.singleton(SimpleGrantedAuthority("ROLE_USER")), memberAttribute, "email")
     }
-
-//    private fun processOAuth2User(oAuth2UserRequest: OAuth2UserRequest, oAuth2User: OAuth2User) : OAuth2User {
-//
-//    }
 }
