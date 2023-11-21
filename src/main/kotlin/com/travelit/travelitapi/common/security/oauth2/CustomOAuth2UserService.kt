@@ -1,6 +1,5 @@
 package com.travelit.travelitapi.common.security.oauth2
 
-import com.travelit.travelitapi.common.logger.logger
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
@@ -13,7 +12,6 @@ import kotlin.jvm.Throws
 
 @Service
 class CustomOAuth2UserService : DefaultOAuth2UserService() {
-    private var logger = logger()
     @Override
     @Throws(OAuth2AuthenticationException::class)
     override fun loadUser(userRequest: OAuth2UserRequest?): OAuth2User {
@@ -23,6 +21,7 @@ class CustomOAuth2UserService : DefaultOAuth2UserService() {
         var userNameAttributeName: String = userRequest?.clientRegistration?.providerDetails?.userInfoEndpoint?.userNameAttributeName ?: "unknown"
         var oAuthAttributes: OAuth2Attribute = OAuth2Attribute.of(registrationId, userNameAttributeName, oAuthUser.attributes)
 
+        // oauth attribute 세팅
         var memberAttribute = oAuthAttributes.convertToMap().toMutableMap()
         memberAttribute.put("provider", registrationId)
 

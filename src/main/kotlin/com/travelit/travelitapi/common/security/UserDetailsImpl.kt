@@ -12,6 +12,7 @@ class UserDetailsImpl(val account: Account) : UserDetails {
     var enabled: Boolean = true
     var roles: MutableSet<String>  = mutableSetOf()
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
+        // user role 지정
         roles.add(account.role)
         return roles.stream().map { role -> SimpleGrantedAuthority("ROLE_$role") }.collect(Collectors.toSet())
     }

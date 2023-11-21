@@ -17,6 +17,7 @@ class OAuth2Attribute private constructor(
             }
         }
 
+        // oauth 별 내장 함수 추가
         private fun ofGoogle(attributeKey: String, attributes: Map<String, Any?>): OAuth2Attribute {
             return OAuth2Attribute(
                 attributes = attributes,

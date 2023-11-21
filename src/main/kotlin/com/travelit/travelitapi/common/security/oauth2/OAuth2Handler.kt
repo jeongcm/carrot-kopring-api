@@ -20,7 +20,8 @@ class OAuth2SuccessHandler(val accountRepository: AccountRepository, val tokenSe
 
     @Override
     override fun onAuthenticationSuccess(request: HttpServletRequest, response: HttpServletResponse, authentication : Authentication) {
-        var oAuth2User: OAuth2User = authentication.principal as OAuth2User
+        // oauth 인증 성공시 회원가입 or 로그인
+        val oAuth2User: OAuth2User = authentication.principal as OAuth2User
 
         val account = Account().apply {
             name = oAuth2User.attributes["name"] as String
@@ -42,8 +43,8 @@ class OAuth2SuccessHandler(val accountRepository: AccountRepository, val tokenSe
 
         // 토큰 발행
         var token = tokenService.createToken(account)
-        logger().info("$token")
 
+        // response에 토큰 담아서 보냄
         response.contentType = "text/html;charset=UTF-8"
         response.addHeader("accessToken", token.accessToken)
         response.addHeader("refreshToken", token.refreshToken)
