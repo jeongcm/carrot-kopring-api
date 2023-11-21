@@ -13,8 +13,7 @@ data class Account (
         @NotBlank(message = "name must not be blank")
         var name: String,
 
-        @Column(nullable = false)
-        @NotBlank(message = "password must not be blank")
+        @Column(nullable = true)
         var password: String,
 
         @Email
@@ -32,7 +31,7 @@ data class Account (
         companion object {
                 fun from(account: Account, encoder: PasswordEncoder) = Account(
                         name = account.name,
-                        password = encoder.encode(account.password),
+                        password = encoder.encode(account.password) ?: "",
                         email = account.email,
                         role = account.role
                 )
