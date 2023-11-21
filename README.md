@@ -2,6 +2,7 @@
 
 ## kotlin-spring-boot-api with oauth2
 
+- 
 - build
   - gradle, graalvm
 - third-party:
@@ -11,6 +12,11 @@
   - oauth2-client
   - lombok
   - jpa
+ 
+- oauth2 target
+  - google
+  - kakao
+  - naver   
 
 - appication.properties
   ```
