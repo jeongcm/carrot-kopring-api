@@ -2,8 +2,15 @@
 
 ## kotlin-spring-boot-api with oauth2
 
-build: gradle, graalvm
-third-party: postgresql, spring-security, jjwt, oauth2-client, lombok, jpa
+- build
+  - gradle, graalvm
+- third-party:
+  - postgresql
+  - spring-security
+  - jjwt
+  - oauth2-client
+  - lombok
+  - jpa
 
 - appication.properties
   ```
