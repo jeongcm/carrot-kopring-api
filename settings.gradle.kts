@@ -1,1 +1,1 @@
-rootProject.name = "travelit-api"
+rootProject.name = "carrot-kopring"
