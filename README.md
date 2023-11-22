@@ -11,6 +11,7 @@
   - oauth2-client
   - lombok
   - jpa
+  - amazon sns
  
 - oauth2 target
   - google
