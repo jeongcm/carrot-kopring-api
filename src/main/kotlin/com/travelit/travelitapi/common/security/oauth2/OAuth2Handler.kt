@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.stereotype.Component
+import java.nio.charset.StandardCharsets
 
 @RequiredArgsConstructor
 @Component
@@ -43,7 +44,7 @@ class OAuth2SuccessHandler(val accountRepository: AccountRepository, val tokenSe
         val token = tokenService.createToken(account)
 
         // response에 토큰 담아서 보냄
-        response.contentType = MediaType.TEXT_HTML_VALUE
+        response.contentType = MediaType.TEXT_HTML_VALUE+";"+StandardCharsets.UTF_8.name()
         response.addHeader(tokenService.accessTokenHeader, token.accessToken)
         response.addHeader(tokenService.refreshTokenHeader, token.refreshToken)
         response.contentType = MediaType.APPLICATION_JSON_VALUE

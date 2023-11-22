@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.nio.charset.StandardCharsets
 
 @RestController
 @RequestMapping("/auth")
@@ -40,7 +41,7 @@ class AccountController(var accountService: AccountService, var tokenService: To
             val token: Token = accountService.logIn(account)
 
             val headers = HttpHeaders()
-            headers.add(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML_VALUE) // Content-Type 설정
+            headers.add(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML_VALUE+";"+StandardCharsets.UTF_8.name()) // Content-Type 설정
             headers.add(tokenService.accessTokenHeader, token.accessToken)
             headers.add(tokenService.refreshTokenHeader, token.refreshToken)
             headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) // Content-Type 설정
