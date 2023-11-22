@@ -8,7 +8,7 @@ plugins {
     kotlin("plugin.spring") version "1.8.22" // Kotlin Spring compiler plugin version
 }
 
-group = "com.kopring"
+group = "com.carrot"
 version = "0.0.1-SNAPSHOT"
 
 java {
