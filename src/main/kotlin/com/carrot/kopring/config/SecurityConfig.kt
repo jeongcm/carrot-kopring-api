@@ -26,11 +26,12 @@ class SecurityConfig(val jwtFilter: JwtAuthenticationFilter, val customOAuth2Use
                 .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
         }
         .formLogin {
-
+            it.loginPage("/login")
         }
         .oauth2Login {
             it.userInfoEndpoint{ userInfoIt ->
-                userInfoIt.userService(customOAuth2UserService)
+                 userInfoIt.userService(customOAuth2UserService)
+//                userInfoIt.oidcUserService (oidcUserService)
             }
             it.successHandler(successHandler)
         }
