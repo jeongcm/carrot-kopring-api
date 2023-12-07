@@ -38,6 +38,7 @@ class SecurityConfig(val jwtFilter: JwtAuthenticationFilter, val customOAuth2Use
         }
         .formLogin {
             it.loginPage("/login")
+            it.defaultSuccessUrl("/home")
         }
         .oauth2Login { it ->
             it.userInfoEndpoint{ userInfoIt ->
