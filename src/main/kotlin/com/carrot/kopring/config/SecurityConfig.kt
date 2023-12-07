@@ -33,6 +33,9 @@ class SecurityConfig(val jwtFilter: JwtAuthenticationFilter, val customOAuth2Use
                  userInfoIt.userService(customOAuth2UserService)
 //                userInfoIt.oidcUserService (oidcUserService)
             }
+            it.authorizationEndpoint {
+                it.baseUri("/login/oauth2")
+            }
             it.successHandler(successHandler)
         }
         .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.NEVER) }

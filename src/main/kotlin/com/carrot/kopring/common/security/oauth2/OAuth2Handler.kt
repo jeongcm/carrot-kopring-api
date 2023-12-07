@@ -50,6 +50,8 @@ class OAuth2SuccessHandler(val accountRepository: AccountRepository, val tokenSe
         response.addHeader(tokenService.accessTokenHeader, token.accessToken)
         response.addHeader(tokenService.refreshTokenHeader, token.refreshToken)
         response.contentType = MediaType.APPLICATION_JSON_VALUE
+        // 어디로 redirect 할지 설정
+//        response.sendRedirect("/home")
     }
 
     fun odicOnAuthenticationSuccess(request: HttpServletRequest, response: HttpServletResponse, authentication : Authentication) {
