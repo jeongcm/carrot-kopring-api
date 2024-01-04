@@ -1,5 +1,6 @@
 package com.carrot.kopring.account.controller
 
+import com.carrot.kopring.account.dto.AccountDto
 import com.carrot.kopring.database.NotFoundEntityException
 import com.carrot.kopring.account.dto.TokenDto
 import com.carrot.kopring.database.entity.Account
@@ -34,7 +35,7 @@ class AccountController(var accountService: com.carrot.kopring.account.service.A
 
     // login
     @PostMapping("/login")
-    fun login(@RequestBody @Valid account: Account): ResponseEntity<Any> {
+    fun login(@RequestBody @Valid account: AccountDto): ResponseEntity<Any> {
         return try {
             val token: TokenDto = accountService.logIn(account)
 
@@ -57,7 +58,7 @@ class AccountController(var accountService: com.carrot.kopring.account.service.A
 
     // sign up
     @PostMapping("/signUp")
-    fun signUp(@RequestBody @Valid account: Account, accountRepository: com.carrot.kopring.account.repository.AccountRepository): ResponseEntity<Any> {
+    fun signUp(@RequestBody @Valid account: AccountDto, accountRepository: com.carrot.kopring.account.repository.AccountRepository): ResponseEntity<Any> {
         return try {
             val res = accountService.signUp(account)
 
