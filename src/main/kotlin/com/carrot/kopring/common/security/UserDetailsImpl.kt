@@ -1,6 +1,6 @@
 package com.carrot.kopring.common.security
 
-import com.carrot.kopring.database.dto.Account
+import com.carrot.kopring.database.entity.Account
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails

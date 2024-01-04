@@ -1,6 +1,6 @@
 package com.carrot.kopring.account.repository
 
-import com.carrot.kopring.database.dto.Account
+import com.carrot.kopring.database.entity.Account
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

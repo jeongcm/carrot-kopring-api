@@ -1,7 +1,6 @@
 package com.carrot.kopring.common.security
 
-import com.carrot.kopring.account.repository.AccountRepository
-import com.carrot.kopring.database.dto.Account
+import com.carrot.kopring.database.entity.Account
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
