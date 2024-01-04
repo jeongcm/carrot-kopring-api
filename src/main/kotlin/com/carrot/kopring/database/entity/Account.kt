@@ -10,15 +10,12 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @Entity
 class Account (
         @Column(nullable = false)
-        @NotBlank(message = "name must not be blank")
         var name: String,
 
         @Column(nullable = true)
         var password: String,
 
-        @Email
         @Column(nullable = false, unique = true)
-        @NotBlank(message = "Email must not be blank")
         var email: String,
 
         @Column(nullable = false)
