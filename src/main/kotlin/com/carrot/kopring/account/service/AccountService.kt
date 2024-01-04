@@ -1,9 +1,9 @@
 package com.carrot.kopring.account.service
 
+import com.carrot.kopring.account.dto.AccountDto
 import com.carrot.kopring.database.NotFoundEntityException
-import com.carrot.kopring.database.dto.Token
-import com.carrot.kopring.account.repository.AccountRepository
-import com.carrot.kopring.database.dto.Account
+import com.carrot.kopring.account.dto.TokenDto
+import com.carrot.kopring.database.entity.Account
 import org.springframework.stereotype.Service
 import jakarta.transaction.Transactional
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -15,7 +15,7 @@ class AccountService(
     private val encoder: PasswordEncoder,
     ) {
     @Transactional
-    fun logIn(account: Account): Token {
+    fun logIn(account: AccountDto): TokenDto {
         accountRepository.findAllByEmail(account.email)?.forEach {
             if (it.name == account.name) {
                 return tokenService.createToken(account)
@@ -26,7 +26,7 @@ class AccountService(
     }
 
     @Transactional
-    fun signUp(account: Account): Account {
+    fun signUp(account: AccountDto): Account {
         accountRepository.findAllByName(account.name)?.forEach {
             if (it.email == account.email) {
                 throw IllegalArgumentException("이미 등록된 이메일입니다.")

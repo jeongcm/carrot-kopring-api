@@ -1,8 +1,8 @@
 package com.carrot.kopring.account.service
 
+import com.carrot.kopring.account.dto.AccountDto
 import com.carrot.kopring.common.security.UserDetailsServiceImpl
-import com.carrot.kopring.database.dto.Account
-import com.carrot.kopring.database.dto.Token
+import com.carrot.kopring.account.dto.TokenDto
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.JwtParser
 import io.jsonwebtoken.Jwts
@@ -29,13 +29,13 @@ class TokenService(private val userDetailsService: UserDetailsServiceImpl) {
     val accessTokenHeader: String = "X-AUTH-ACCESS-TOKEN"
 
     val refreshTokenHeader: String = "X-AUTH-REFRESH-TOKEN"
-    fun createToken (account: Account): Token {
+    fun createToken (account: AccountDto): TokenDto {
         val accessToken = createAccessToken(account)
         val refreshToken = createRefreshToken(account)
-        return Token(accessToken, refreshToken)
+        return TokenDto(accessToken, refreshToken)
     }
     // 객체 초기화, secretKey를 Base64로 인코딩한다.
-    private fun createAccessToken(account: Account): String {
+    private fun createAccessToken(account: AccountDto): String {
         val now = Date()
         val expiration = Date(now.time + accessTokenExpiredTime) // 30 min from now
 
@@ -51,7 +51,7 @@ class TokenService(private val userDetailsService: UserDetailsServiceImpl) {
                 .compact()
     }
 
-    private fun createRefreshToken(account: Account): String {
+    private fun createRefreshToken(account: AccountDto): String {
         val now = Date()
         val expiration = Date(now.time + refreshTokenExpiredTime) // 30 min from now
         val claims = setClaims(account, issuer, now, expiration)
@@ -83,7 +83,7 @@ class TokenService(private val userDetailsService: UserDetailsServiceImpl) {
         return UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
     }
 
-    private fun setClaims(account: Account, issuer: String, issuedAt: Date, expiration: Date): MutableMap<String, Any> {
+    private fun setClaims(account: AccountDto, issuer: String, issuedAt: Date, expiration: Date): MutableMap<String, Any> {
         val claims: MutableMap<String, Any> = HashMap()
         claims["username"] = account.name
         claims[Claims.SUBJECT] = account.email

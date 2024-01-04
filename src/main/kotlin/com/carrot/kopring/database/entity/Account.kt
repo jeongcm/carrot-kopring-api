@@ -1,5 +1,6 @@
-package com.carrot.kopring.database.dto
+package com.carrot.kopring.database.entity
 
+import com.carrot.kopring.account.dto.AccountDto
 import jakarta.persistence.*
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
@@ -7,8 +8,7 @@ import lombok.NoArgsConstructor
 import org.springframework.security.crypto.password.PasswordEncoder
 
 @Entity
-@NoArgsConstructor
-data class Account (
+class Account (
         @Column(nullable = false)
         @NotBlank(message = "name must not be blank")
         var name: String,
@@ -32,7 +32,7 @@ data class Account (
         val id: Long? = null,
 ): AuditableEntity() {
         companion object {
-                fun from(account: Account, encoder: PasswordEncoder) = Account(
+                fun from(account: AccountDto, encoder: PasswordEncoder) = Account(
                         name = account.name,
                         password = encoder.encode(account.password) ?: "",
                         email = account.email,
@@ -41,9 +41,9 @@ data class Account (
                 )
         }
 
-        fun update(account: Account, encoder: PasswordEncoder) {	// 파라미터에 PasswordEncoder 추가
+        fun update(account: AccountDto, encoder: PasswordEncoder) {	// 파라미터에 PasswordEncoder 추가
                 this.password = account.password
-                        .takeIf { it.isNotBlank() }
+                        .takeIf { it?.isNotBlank() ?: true }
                         ?.let { encoder.encode(it) }	// 추가
                         ?: this.password
                 this.name = account.name

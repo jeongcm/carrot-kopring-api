@@ -1,10 +1,8 @@
 package com.carrot.kopring.account.controller
 
 import com.carrot.kopring.database.NotFoundEntityException
-import com.carrot.kopring.account.service.AccountService
-import com.carrot.kopring.database.dto.Token
-import com.carrot.kopring.database.dto.Account
-import com.carrot.kopring.account.repository.AccountRepository
+import com.carrot.kopring.account.dto.TokenDto
+import com.carrot.kopring.database.entity.Account
 import com.carrot.kopring.account.service.TokenService
 import com.carrot.kopring.common.logger.logger
 import jakarta.validation.Valid
@@ -38,7 +36,7 @@ class AccountController(var accountService: com.carrot.kopring.account.service.A
     @PostMapping("/login")
     fun login(@RequestBody @Valid account: Account): ResponseEntity<Any> {
         return try {
-            val token: Token = accountService.logIn(account)
+            val token: TokenDto = accountService.logIn(account)
 
             val headers = HttpHeaders()
             headers.add(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML_VALUE+";"+StandardCharsets.UTF_8.name()) // Content-Type 설정

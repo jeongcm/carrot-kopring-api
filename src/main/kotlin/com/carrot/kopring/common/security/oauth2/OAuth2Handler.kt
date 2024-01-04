@@ -1,8 +1,7 @@
 package com.carrot.kopring.common.security.oauth2
 
-import com.carrot.kopring.account.repository.AccountRepository
 import com.carrot.kopring.account.service.TokenService
-import com.carrot.kopring.database.dto.Account
+import com.carrot.kopring.database.entity.Account
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import lombok.RequiredArgsConstructor

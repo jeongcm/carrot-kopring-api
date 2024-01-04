@@ -1,7 +1,7 @@
-package com.carrot.kopring.common
+package com.carrot.kopring.account.dto
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.carrot.kopring.database.dto.Token
+import com.carrot.kopring.common.ResultCode
 import java.util.Date
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -25,5 +25,5 @@ data class ResponseDto<T>(
 
 data class LogInResponse(
         val name: String?,
-        val token: Token
+        val tokenDto: TokenDto
 )

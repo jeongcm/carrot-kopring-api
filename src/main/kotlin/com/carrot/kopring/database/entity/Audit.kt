@@ -1,4 +1,4 @@
-package com.carrot.kopring.database.dto
+package com.carrot.kopring.database.entity
 
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
