@@ -20,7 +20,7 @@ class SecurityConfig(val jwtFilter: JwtAuthenticationFilter, val customOAuth2Use
             it.disable()  // csrf 설정하지 않음
         }
         .authorizeHttpRequests {
-            it.requestMatchers("/","/auth/login", "/auth/login/**").permitAll() // 로그인 회원가입 관련 router 와 / 는 인증 제외
+            it.requestMatchers("/","/auth/login", "/auth/login/**", "/swagger-ui/**").permitAll() // 로그인 회원가입 관련 router 와 / 는 인증 제외
             it.requestMatchers("/actuator","/actuator/**").permitAll() // prometheus test
             it.requestMatchers("/auth/admin").hasRole("ADMIN") // only admin user
                 .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
