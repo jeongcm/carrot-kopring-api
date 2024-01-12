@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor
 import org.springframework.security.crypto.password.PasswordEncoder
 
 @Entity
-data class Account (
+class Account (
         @Column(nullable = false)
         var name: String = "",
 
