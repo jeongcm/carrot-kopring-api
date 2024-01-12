@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
-open class AuditableEntity {
+class AuditableEntity {
     @CreatedBy
     var createdBy: String? = null
 

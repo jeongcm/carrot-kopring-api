@@ -10,13 +10,13 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @Entity
 class Account (
         @Column(nullable = false)
-        var name: String,
+        var name: String = "",
 
         @Column(nullable = true)
-        var password: String,
+        var password: String = "",
 
         @Column(nullable = false, unique = true)
-        var email: String,
+        var email: String = "",
 
         @Column(nullable = false)
         var role: String = "USER",
@@ -48,5 +48,4 @@ class Account (
                 this.role = account.role
                 this.provider = account.provider
         }
-        constructor() : this("", "", "", "USER", "custom")
 }
