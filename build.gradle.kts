@@ -6,6 +6,7 @@ plugins {
     id("org.graalvm.buildtools.native") version "0.9.27"
     kotlin("jvm") version "1.8.22" // kotlin version
     kotlin("plugin.spring") version "1.8.22" // Kotlin Spring compiler plugin version
+    kotlin("plugin.allopen") version "1.8.0" // for JPA LAZY Fetch
 }
 
 group = "com.carrot"
@@ -70,6 +71,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.micrometer:micrometer-registry-prometheus")
 }
+
+
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.Embeddable")
+    annotation("jakarta.persistence.MappedSuperclass")
+}
+
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
