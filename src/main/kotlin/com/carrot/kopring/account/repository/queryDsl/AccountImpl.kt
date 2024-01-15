@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class AccountImpl(val jpaQueryFactory: JPAQueryFactory) : AccountRepositoryCustom {
-    override fun findByRole(role: String): Account? {
+    override fun findByRole(role: String): List<Account> {
         val query = jpaQueryFactory.selectFrom(QAccount.account).where(QAccount.account.role.eq(role))
-        return query.fetchOne()
+        return query.fetch()
     }
 }

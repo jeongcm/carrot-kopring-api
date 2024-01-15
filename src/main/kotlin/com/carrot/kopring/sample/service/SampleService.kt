@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleService(private val accountRepository: AccountRepository,) {
-    fun getSampleTest(email: String) : Account? {
+    fun getSampleTest(email: String) : List<Account> {
         return this.accountRepository.findByRole(email)
     }
 }
