@@ -1,8 +1,8 @@
 package com.carrot.kopring.common.security.oauth2
 
-import com.carrot.kopring.account.repository.AccountRepository
+import com.carrot.kopring.account.dto.AccountDto
 import com.carrot.kopring.account.service.TokenService
-import com.carrot.kopring.database.dto.Account
+import com.carrot.kopring.database.entity.Account
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import lombok.RequiredArgsConstructor
@@ -41,7 +41,13 @@ class OAuth2SuccessHandler(val accountRepository: com.carrot.kopring.account.rep
         }
 
         // 토큰 발행
-        val token = tokenService.createToken(account)
+        val token = tokenService.createToken(AccountDto(
+                name = account.name,
+                password = account.password,
+                email = account.email,
+                role = account.role,
+                provider = account.provider
+        ))
 
         // response에 토큰 담아서 보냄
         response.contentType = MediaType.TEXT_HTML_VALUE+";"+StandardCharsets.UTF_8.name()

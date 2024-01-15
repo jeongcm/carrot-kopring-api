@@ -6,6 +6,9 @@ plugins {
     id("org.graalvm.buildtools.native") version "0.9.27"
     kotlin("jvm") version "1.8.22" // kotlin version
     kotlin("plugin.spring") version "1.8.22" // Kotlin Spring compiler plugin version
+    kotlin("plugin.allopen") version "1.8.0" // for JPA LAZY Fetch
+    kotlin("kapt") version "1.8.21"
+    idea
 }
 
 group = "com.carrot"
@@ -38,6 +41,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 
+    // queryDSL
+    implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
+    kapt("jakarta.annotation:jakarta.annotation-api")
+    kapt("jakarta.persistence:jakarta.persistence-api")
+
     // token
     implementation("io.jsonwebtoken:jjwt-api:0.12.3")
     implementation("io.jsonwebtoken:jjwt-impl:0.12.3")
@@ -69,6 +78,25 @@ dependencies {
     // prometheus, micrometer
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.micrometer:micrometer-registry-prometheus")
+
+    // spring doc (swagger)
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
+
+}
+
+// for queryDSL
+idea {
+    module {
+        val kaptMain = file("build/generated/source/kapt/main")
+        sourceDirs.add(kaptMain)
+        generatedSourceDirs.add(kaptMain)
+    }
+}
+
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.Embeddable")
+    annotation("jakarta.persistence.MappedSuperclass")
 }
 
 tasks.withType<KotlinCompile> {

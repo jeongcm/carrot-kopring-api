@@ -1,4 +1,4 @@
-package com.carrot.kopring.database.dto
+package com.carrot.kopring.database.entity
 
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
-open class AuditableEntity {
+class AuditableEntity {
     @CreatedBy
     var createdBy: String? = null
 
