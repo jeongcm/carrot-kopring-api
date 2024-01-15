@@ -3,7 +3,7 @@ package com.carrot.kopring.account.controller
 import com.carrot.kopring.account.dto.AccountDto
 import com.carrot.kopring.database.NotFoundEntityException
 import com.carrot.kopring.account.dto.TokenDto
-import com.carrot.kopring.database.entity.Account
+import com.carrot.kopring.account.service.AccountService
 import com.carrot.kopring.account.service.TokenService
 import com.carrot.kopring.common.logger.logger
 import jakarta.validation.Valid
@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets
 
 @RestController
 @RequestMapping("/auth")
-class AccountController(var accountService: com.carrot.kopring.account.service.AccountService, var tokenService: TokenService) {
+class AccountController(var accountService: AccountService, var tokenService: TokenService) {
     // test
     var logger = logger()
     @GetMapping("/admin")
@@ -32,6 +32,7 @@ class AccountController(var accountService: com.carrot.kopring.account.service.A
         logger.error("hello my error log")
         return ResponseEntity.ok("ok")
     }
+
 
     // login
     @PostMapping("/login")

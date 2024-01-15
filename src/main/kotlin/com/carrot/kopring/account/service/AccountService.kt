@@ -3,6 +3,7 @@ package com.carrot.kopring.account.service
 import com.carrot.kopring.account.dto.AccountDto
 import com.carrot.kopring.database.NotFoundEntityException
 import com.carrot.kopring.account.dto.TokenDto
+import com.carrot.kopring.account.repository.AccountRepository
 import com.carrot.kopring.database.entity.Account
 import org.springframework.stereotype.Service
 import jakarta.transaction.Transactional
@@ -10,8 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder
 
 @Service
 class AccountService(
-    private val accountRepository: com.carrot.kopring.account.repository.AccountRepository,
-    private val tokenService: com.carrot.kopring.account.service.TokenService,
+    private val accountRepository: AccountRepository,
+    private val tokenService: TokenService,
     private val encoder: PasswordEncoder,
     ) {
     @Transactional
