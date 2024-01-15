@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController
 class SampleController( var sampleService: SampleService) {
 
     @GetMapping("/getTest")
-    fun getSample(email: String): ResponseEntity<Any> {
-        val result = sampleService.getSampleTest(email)
+    fun getSample(role: String): ResponseEntity<Any> {
+        val result = sampleService.getSampleTest(role)
         return ResponseEntity(result, HttpStatus.OK)
     }
 }
