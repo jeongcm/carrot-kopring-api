@@ -5,8 +5,8 @@ import com.carrot.kopring.database.entity.Account
 import org.springframework.stereotype.Service
 
 @Service
-class SampleService(private val accountRepository: AccountRepository,) {
-    fun getSampleTest(email: String) : List<Account> {
-        return this.accountRepository.findByRole(email)
+class SampleService(private val accountRepository: AccountRepository) {
+    fun getSampleTest(role: String) : List<Account> {
+        return this.accountRepository.findByRole(role)
     }
 }
