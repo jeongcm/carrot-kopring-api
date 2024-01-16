@@ -11,6 +11,17 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
+
+/*
+      By default, Spring OAuth2 uses HttpSessionOAuth2AuthorizationRequestRepository to save
+      the authorization request. But, since our service is stateless, we can't save it in
+      the session. We'll save the request in a Base64 encoded cookie instead.
+    */
+//@Bean
+//fun cookieAuthorizationRequestRepository(): HttpCookieOAuth2AuthorizationRequestRepository {
+//    return HttpCookieOAuth2AuthorizationRequestRepository()
+//}
+
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(val jwtFilter: JwtAuthenticationFilter, val customOAuth2UserService: CustomOAuth2UserService, val successHandler: OAuth2SuccessHandler) {
@@ -26,11 +37,16 @@ class SecurityConfig(val jwtFilter: JwtAuthenticationFilter, val customOAuth2Use
                 .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
         }
         .formLogin {
-
+            it.loginPage("/login")
+            it.defaultSuccessUrl("/home")
         }
-        .oauth2Login {
+        .oauth2Login { it ->
             it.userInfoEndpoint{ userInfoIt ->
-                userInfoIt.userService(customOAuth2UserService)
+                 userInfoIt.userService(customOAuth2UserService)
+//                userInfoIt.oidcUserService (oidcUserService)
+            }
+            it.authorizationEndpoint {ae ->
+                ae.baseUri("/auth/login/oauth2")
             }
             it.successHandler(successHandler)
         }
