@@ -7,20 +7,25 @@ import com.carrot.kopring.common.logger.logger
 import com.carrot.kopring.database.entity.Account
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import jakarta.transaction.Transactional
 import lombok.RequiredArgsConstructor
+import lombok.extern.slf4j.Slf4j
 import org.springframework.http.MediaType
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.AuthenticationException
 import org.springframework.security.oauth2.core.oidc.user.OidcUser
 import org.springframework.security.oauth2.core.user.OAuth2User
+import org.springframework.security.web.authentication.AuthenticationFailureHandler
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.stereotype.Component
 import java.nio.charset.StandardCharsets
+
 
 @RequiredArgsConstructor
 @Component
 class OAuth2SuccessHandler(val accountRepository: AccountRepository, val tokenService: TokenService) : AuthenticationSuccessHandler {
 
-    @Override
+    @Transactional
     override fun onAuthenticationSuccess(request: HttpServletRequest, response: HttpServletResponse, authentication : Authentication) {
         // oauth 인증 성공시 회원가입 or 로그인
         val oAuth2User: OAuth2User = authentication.principal as OAuth2User
@@ -54,11 +59,13 @@ class OAuth2SuccessHandler(val accountRepository: AccountRepository, val tokenSe
 
         // response에 토큰 담아서 보냄
         response.contentType = MediaType.TEXT_HTML_VALUE+";"+StandardCharsets.UTF_8.name()
-        response.addHeader(tokenService.accessTokenHeader, token.accessToken)
-        response.addHeader(tokenService.refreshTokenHeader, token.refreshToken)
+        response.addHeader(tokenService.accessTokenHeader, "Bearer " + token.accessToken)
+        response.addHeader(tokenService.refreshTokenHeader, "Bearer " + token.refreshToken)
+//        response.sendRedirect() // 프론트의 어떤 곳으로 redirect 할지 정해야함
+
         response.contentType = MediaType.APPLICATION_JSON_VALUE
+
         // 어디로 redirect 할지 설정
-//        response.sendRedirect("/home")
     }
 
     fun odicOnAuthenticationSuccess(request: HttpServletRequest, response: HttpServletResponse, authentication : Authentication) {
