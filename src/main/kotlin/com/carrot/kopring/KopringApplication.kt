@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 class KopringApplication
 
 fun main(args: Array<String>) {
-    runApplication<com.carrot.kopring.KopringApplication>(*args)
+    runApplication<KopringApplication>(*args)
 }
