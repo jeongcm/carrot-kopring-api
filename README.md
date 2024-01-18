@@ -5,6 +5,8 @@
 ## 환경
 ### jdk 17, gradle 8.3, spring boot
 
+## 사용한 스택
+### mariadb, spring security, jpa, queryDsl, oauth2, oidc(진행중)
 
 ---
 - 빌드
