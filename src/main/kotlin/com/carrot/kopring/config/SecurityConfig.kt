@@ -63,7 +63,6 @@ class SecurityConfig(val jwtFilter: JwtAuthenticationFilter, val customOAuth2Use
         }
         .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.NEVER) }
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
-//        .addFilterBefore(AccessDe)
         .exceptionHandling {
             it.authenticationEntryPoint(CustomAuthenticationEntryPoint())
             it.accessDeniedHandler(CustomAuthenticationEntryPoint())
