@@ -2,10 +2,8 @@ package com.carrot.kopring.database.entity
 
 import com.carrot.kopring.account.dto.AccountDto
 import jakarta.persistence.*
-import jakarta.validation.constraints.Email
-import jakarta.validation.constraints.NotBlank
-import lombok.NoArgsConstructor
 import org.springframework.security.crypto.password.PasswordEncoder
+import java.util.Base64.getEncoder
 
 @Entity
 class Account (
@@ -31,7 +29,7 @@ class Account (
         companion object {
                 fun from(account: AccountDto, encoder: PasswordEncoder) = Account(
                         name = account.name,
-                        password = encoder.encode(account.password) ?: "",
+                        password = getEncoder().encodeToString(account.password?.toByteArray()) ?: "",
                         email = account.email,
                         role = account.role,
                         provider = account.provider

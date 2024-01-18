@@ -9,6 +9,7 @@ import com.carrot.kopring.database.entity.Account
 import org.springframework.stereotype.Service
 import jakarta.transaction.Transactional
 import org.springframework.security.crypto.password.PasswordEncoder
+import java.util.Base64.getEncoder
 
 @Service
 @Transactional
@@ -20,7 +21,8 @@ class AccountService(
     fun logIn(account: AccountDto): TokenDto {
         accountRepository.findAllByEmail(account.email)?.forEach {
             if (it.name == account.name) {
-                if (it.password != (encoder.encode(account.password))) {
+                val pwd = getEncoder().encodeToString(account.password!!.toByteArray())
+                if (pwd  != it.password) {
                     throw InvalidRequestException("비밀 번호가 일치하지 않습니다.");
                 }
 
