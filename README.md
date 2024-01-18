@@ -1,28 +1,24 @@
-# kotlin-spring-boot-api
+# travelit-backend-server
+## 트래블릿 백앤드 서버
 
-## kotlin-spring-boot-api with oauth2
+---
+## 환경
+### jdk 17, gradle 8.3, spring boot
 
-- build
-  - gradle, graalvm
-- third-party:
-  - postgresql
-  - spring-security
-  - jjwt
-  - oauth2-client
-  - lombok
-  - jpa
-  - amazon sns
- 
-- oauth2 target
-  - google
-  - kakao
-  - naver   
 
-- appication.properties
-  ```
-  # security oauth2 config
-  spring.security.oauth2.client.registration.google.client-id=
-  spring.security.oauth2.client.registration.google.client-secret=
-  spring.security.oauth2.client.registration.google.redirect-uri=http://localhost:8080
-  spring.security.oauth2.client.registration.google.scope=profile,email
+---
+- 빌드
+```bash
+./gradlew clean build
+```
+
+- 로컬 Run
+```bash
+./gradlew bootRun
+```
+
+- Docker build
+```bash
+docker build -t imageName:tag .
+```
   

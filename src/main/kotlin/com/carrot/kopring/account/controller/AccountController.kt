@@ -23,6 +23,7 @@ import java.nio.charset.StandardCharsets
 class AccountController(var accountService: AccountService, var tokenService: TokenService) {
     // test
     var logger = logger()
+
     @GetMapping("/admin")
     fun getAccount(): ResponseEntity<Any> {
 //        println(SecurityContextHolder.getContext().authentication.name)
@@ -41,33 +42,37 @@ class AccountController(var accountService: AccountService, var tokenService: To
             val token: TokenDto = accountService.logIn(account)
 
             val headers = HttpHeaders()
-            headers.add(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML_VALUE+";"+StandardCharsets.UTF_8.name()) // Content-Type 설정
-            headers.add(tokenService.accessTokenHeader, token.accessToken)
-            headers.add(tokenService.refreshTokenHeader, token.refreshToken)
+            headers.add(tokenService.accessTokenHeader, "Bearer " + token.accessToken)
+            headers.add(tokenService.refreshTokenHeader, "Bearer " + token.refreshToken)
             headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) // Content-Type 설정
 
             return ResponseEntity(null, headers, HttpStatus.OK)
 
         } catch (e: IllegalArgumentException) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("bad request error. cause: " + e.message)
+            ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("bad request error. cause: " + e.message)
         } catch (e: NotFoundEntityException) {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body("not found error. cause: " + e.message)
         } catch (e: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("internal server error. cause: " + e.message)
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("internal server error. cause: " + e.message)
         }
     }
 
     // sign up
     @PostMapping("/signUp")
-    fun signUp(@RequestBody @Valid account: AccountDto, accountRepository: com.carrot.kopring.account.repository.AccountRepository): ResponseEntity<Any> {
+    fun signUp(
+        @RequestBody @Valid account: AccountDto): ResponseEntity<Any> {
         return try {
             val res = accountService.signUp(account)
 
             ResponseEntity.ok(res)
         } catch (e: IllegalArgumentException) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("bad request error. cause: " + e.message)
+            ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("bad request error. cause: " + e.message)
         } catch (e: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("internal server error. cause: " + e.message)
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("internal server error. cause: " + e.message)
         }
     }
     // follow
