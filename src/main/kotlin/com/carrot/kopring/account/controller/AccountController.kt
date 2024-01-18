@@ -62,9 +62,7 @@ class AccountController(var accountService: AccountService, var tokenService: To
     // sign up
     @PostMapping("/signUp")
     fun signUp(
-        @RequestBody @Valid account: AccountDto,
-        accountRepository: com.carrot.kopring.account.repository.AccountRepository
-    ): ResponseEntity<Any> {
+        @RequestBody @Valid account: AccountDto): ResponseEntity<Any> {
         return try {
             val res = accountService.signUp(account)
 
