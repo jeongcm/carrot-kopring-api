@@ -3,6 +3,8 @@ package com.carrot.kopring.database.entity
 import com.carrot.kopring.account.dto.AccountDto
 import jakarta.persistence.*
 import org.springframework.security.crypto.password.PasswordEncoder
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.util.Base64.getEncoder
 
 @Entity
@@ -45,5 +47,9 @@ class Account (
                 this.email = account.email
                 this.role = account.role
                 this.provider = account.provider
+        }
+
+        fun delete() {
+                this.deletedAt = LocalDateTime.now(ZoneOffset.UTC)
         }
 }
