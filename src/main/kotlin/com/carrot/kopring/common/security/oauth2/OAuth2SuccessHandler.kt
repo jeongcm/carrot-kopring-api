@@ -54,7 +54,6 @@ class OAuth2SuccessHandler(val accountRepository: AccountRepository, val tokenSe
                 password = account.password,
                 email = account.email,
                 role = account.role,
-                provider = account.provider
         ))
 
         // response에 토큰 담아서 보냄

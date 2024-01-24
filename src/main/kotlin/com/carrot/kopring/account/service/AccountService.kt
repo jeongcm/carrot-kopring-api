@@ -18,14 +18,18 @@ class AccountService(
     private val tokenService: TokenService,
     private val encoder: PasswordEncoder,
 ) {
-    fun logIn(account: AccountDto): TokenDto {
-        accountRepository.findAllByEmail(account.email)?.forEach {
-            if (it.name == account.name) {
-                val pwd = getEncoder().encodeToString(account.password!!.toByteArray())
+    fun logIn(name: String, email: String, password: String?): TokenDto {
+        accountRepository.findAllByEmail(email)?.forEach {
+            if (it.name == name) {
+                val pwd = getEncoder().encodeToString(password!!.toByteArray())
                 if (pwd  != it.password) {
                     throw InvalidRequestException("비밀 번호가 일치하지 않습니다.");
                 }
-
+               val account = AccountDto(
+                       name = name,
+                       email = email,
+                       password = password
+               )
                 return tokenService.createToken(account)
             }
         }

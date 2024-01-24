@@ -3,6 +3,7 @@ package com.carrot.kopring.account.controller
 import com.carrot.kopring.account.dto.AccountDto
 import com.carrot.kopring.database.NotFoundEntityException
 import com.carrot.kopring.account.dto.TokenDto
+import com.carrot.kopring.account.dto.request.LoginRequest
 import com.carrot.kopring.account.service.AccountService
 import com.carrot.kopring.account.service.TokenService
 import com.carrot.kopring.common.logger.logger
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.nio.charset.StandardCharsets
 
 @RestController
 @RequestMapping("/auth")
@@ -37,9 +37,9 @@ class AccountController(var accountService: AccountService, var tokenService: To
 
     // login
     @PostMapping("/login")
-    fun login(@RequestBody @Valid account: AccountDto): ResponseEntity<Any> {
+    fun login(@RequestBody @Valid loginRequest: LoginRequest): ResponseEntity<Any> {
         return try {
-            val token: TokenDto = accountService.logIn(account)
+            val token: TokenDto = accountService.logIn(loginRequest.name, loginRequest.email, loginRequest.password)
 
             val headers = HttpHeaders()
             headers.add(tokenService.accessTokenHeader, "Bearer " + token.accessToken)
