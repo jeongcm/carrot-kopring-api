@@ -24,6 +24,5 @@ class AuditableEntity {
     @LastModifiedDate
     var updatedAt: LocalDateTime? = null
 
-    @LastModifiedDate
     var deletedAt: LocalDateTime? = null
 }
