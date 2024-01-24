@@ -4,10 +4,10 @@ import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
-import java.util.Date
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.MappedSuperclass
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.time.LocalDateTime
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
@@ -16,11 +16,14 @@ class AuditableEntity {
     var createdBy: String? = null
 
     @CreatedDate
-    var createdDate: Date? = null
+    var createdAt: LocalDateTime? = null
 
     @LastModifiedBy
     var updatedBy: String? = null
 
     @LastModifiedDate
-    var updatedAt: Date? = null
+    var updatedAt: LocalDateTime? = null
+
+    @LastModifiedDate
+    var deletedAt: LocalDateTime? = null
 }
