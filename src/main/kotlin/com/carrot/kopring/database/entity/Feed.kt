@@ -1,48 +1,46 @@
 package com.carrot.kopring.database.entity
 
-import com.carrot.kopring.account.dto.FeedDto
+import com.carrot.kopring.feed.dto.FeedDto
 import jakarta.persistence.*
 import org.springframework.security.crypto.password.PasswordEncoder
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import java.util.*
 
 @Entity
 class Feed (
     @Column(nullable = false)
     var region: String = "KOR", // KOR(Korea), GLO(Global)
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     var category: String = "travel", // travel, food, fashion, free
 
-    @Column(nullable = false, unique = true)
-    var email: String = "",
+    @Column(nullable = true)
+    @ElementCollection
+    var media: MutableList<String>? = null, // aws s3 object key list
 
     @Column(nullable = false)
-    var role: String = "USER",
+    var title: String = "", // feed title
 
-    @Column(nullable = true)
-    var provider: String = "custom",
+    @Column(nullable = false)
+    var content: String = "", // feed contents
+
+    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "email", referencedColumnName = "email")
+    var account: Account? = null,
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 ): AuditableEntity() {
     companion object {
-        fun from(account: FeedDto) = Account(
-            name = account.name,
-            password = Base64.getEncoder().encodeToString(account.password?.toByteArray()) ?: "",
-            email = account.email,
-            role = account.role,
-            provider = account.provider
+        fun from(feed: FeedDto) = Account(
+
         )
     }
 
-    fun update(account: FeedDto, encoder: PasswordEncoder) {	// 파라미터에 PasswordEncoder 추가
-        this.region = account.name
-        this.email = account.email
-        this.role = account.role
-        this.provider = account.provider
+    fun update(feed: FeedDto) {	// 파라미터에 PasswordEncoder 추가
+
     }
 
     fun delete() {
