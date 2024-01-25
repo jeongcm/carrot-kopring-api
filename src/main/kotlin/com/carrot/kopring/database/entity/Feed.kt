@@ -28,7 +28,6 @@ class Feed(
     @Column(nullable = false)
     var content: String? = "", // feed contents
 
-    @Column(nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "email", referencedColumnName = "email")
     var account: Account? = null,

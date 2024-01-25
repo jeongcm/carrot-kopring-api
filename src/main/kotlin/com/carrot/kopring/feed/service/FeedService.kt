@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile
 class FeedService(
     private val feedRepository: FeedRepository,
     private val accountRepository: AccountRepository,
-    private val encoder: PasswordEncoder,
 ) {
     companion object {
 
