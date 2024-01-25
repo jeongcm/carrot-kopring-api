@@ -51,7 +51,7 @@ class Feed(
 
             // image upload를 비동기 처리
             CoroutineScope(Dispatchers.IO).launch {
-                feed.media = FeedService.uploadImage(feedDto.email!!, feedDto.media)
+                feed.media = FeedService.uploadImage(account.email, feedDto.media)
             }
 
             return feed
