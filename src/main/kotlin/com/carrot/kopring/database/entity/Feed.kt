@@ -1,13 +1,17 @@
 package com.carrot.kopring.database.entity
 
 import com.carrot.kopring.feed.dto.FeedDto
+import com.carrot.kopring.feed.service.FeedService
 import jakarta.persistence.*
-import org.springframework.security.crypto.password.PasswordEncoder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 @Entity
-class Feed (
+class Feed(
     @Column(nullable = false)
     var region: String = "KOR", // KOR(Korea), GLO(Global)
 
@@ -19,12 +23,11 @@ class Feed (
     var media: MutableList<String>? = null, // aws s3 object key list
 
     @Column(nullable = false)
-    var title: String = "", // feed title
+    var title: String = "제목없음", // feed title
 
     @Column(nullable = false)
-    var content: String = "", // feed contents
+    var content: String? = "", // feed contents
 
-    @Column(nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "email", referencedColumnName = "email")
     var account: Account? = null,
@@ -32,14 +35,30 @@ class Feed (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-): AuditableEntity() {
+) : AuditableEntity() {
     companion object {
-        fun from(feed: FeedDto) = Account(
 
-        )
+
+        fun from(feedDto: FeedDto, account: Account): Feed {
+
+            val feed = Feed(
+                region = feedDto.region ?: "KOR",
+                category = feedDto.category ?: "travel",
+                title = feedDto.title ?: "제목없음",
+                content = feedDto.content ?: "",
+                account = account
+            )
+
+            // image upload를 비동기 처리
+            CoroutineScope(Dispatchers.IO).launch {
+                feed.media = FeedService.uploadImage(feedDto.email!!, feedDto.media)
+            }
+
+            return feed
+        }
     }
 
-    fun update(feed: FeedDto) {	// 파라미터에 PasswordEncoder 추가
+    fun update(feed: FeedDto) {    // 파라미터에 PasswordEncoder 추가
 
     }
 

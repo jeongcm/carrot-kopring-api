@@ -82,6 +82,12 @@ dependencies {
     // spring doc (swagger)
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
 
+    // amazon sdk
+    implementation("com.amazonaws:aws-java-sdk-s3:1.12.174")
+
+    // coroutine
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+
 }
 
 // for queryDSL

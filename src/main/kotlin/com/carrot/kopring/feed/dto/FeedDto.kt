@@ -1,21 +1,30 @@
 package com.carrot.kopring.feed.dto
 
-import com.carrot.kopring.common.ResultCode
-import com.fasterxml.jackson.annotation.JsonInclude
+import com.carrot.kopring.database.entity.Account
+import jakarta.persistence.*
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
-import java.util.*
+import jakarta.validation.constraints.NotEmpty
+import jakarta.validation.constraints.NotNull
+import org.springframework.web.multipart.MultipartFile
 
-data class FeedDto (
-        @NotBlank(message = "name must not be blank")
-        val name: String,
+data class FeedDto(
+    @NotNull
+    var region: String? = null, // KOR(Korea), GLO(Global)
 
-        val password: String? = null, // 이 필드는 생성시 필수값이 아닌 경우 nullable로 지정
+    @NotNull
+    var category: String? = null, // travel, food, fashion, free
 
-        @Email
-        @NotBlank(message = "Email must not be blank")
-        val email: String,
+    @NotBlank
+    var media: List<MultipartFile>? = null, // aws s3 object key list
 
-        val role: String = "USER",
-        val provider: String = "custom"
+    @NotNull
+    var title: String? = null, // feed title
+
+    @NotNull
+    var content: String? = null, // feed contents
+
+    @Email
+    @NotNull
+    var email: String? = null
 )
