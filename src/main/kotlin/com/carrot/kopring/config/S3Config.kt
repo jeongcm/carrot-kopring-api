@@ -6,8 +6,9 @@ import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 
-//@Configuration
+@Configuration
 class S3Config(
     @Value("\${aws.s3.region}")
     private val region: String,
