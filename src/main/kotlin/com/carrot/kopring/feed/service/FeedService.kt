@@ -1,63 +1,59 @@
 package com.carrot.kopring.feed.service
 
-import com.amazonaws.services.s3.model.Bucket
+import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
-import com.amazonaws.services.s3.model.PutObjectResult
 import com.carrot.kopring.account.repository.AccountRepository
+import com.carrot.kopring.common.properties.AwsProperties
 import com.carrot.kopring.database.NotFoundEntityException
 import com.carrot.kopring.database.entity.Feed
 import com.carrot.kopring.feed.dto.FeedDto
 import com.carrot.kopring.feed.repository.FeedRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.withContext
-import org.springframework.beans.factory.annotation.Value
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.multipart.MultipartFile
 
 @Service
 class FeedService(
     private val feedRepository: FeedRepository,
     private val accountRepository: AccountRepository,
+    @Autowired private val awsProperties: AwsProperties,
+    @Autowired private val awsS3Client: AmazonS3,
 ) {
-    companion object {
-
-        suspend fun uploadImage(userEmail: String, images: List<MultipartFile>?) = withContext(Dispatchers.IO) {
+    companion object  {
+        fun uploadImage(userEmail: String, images: List<MultipartFile>?, awsProperties: AwsProperties, awsS3Client: AmazonS3) :MutableList<String> {
             try {
-                if (images.isNullOrEmpty()) {
-                    return@withContext emptyList<String>().toMutableList()
-                }
 
+                if (images.isNullOrEmpty()) {
+                    return emptyList<String>().toMutableList()
+                }
 
                 // s3 image upload
-                val uploadJobs = images.map {
-                    val imageMetadata = ObjectMetadata().apply {
-                        this.contentType = it.contentType
-                        this.contentLength = it.size
-                    }
+                val uploadJobs = images.map {image ->
 
-                    async {
-                        val objectKey = "${userEmail}:${it.originalFilename}"
+                    val imageMetadata = ObjectMetadata().apply {
+                        this.contentType = image.contentType
+                        this.contentLength = image.size
+                    }
+                    val objectKey = "${userEmail}:${image.originalFilename}"
+                    image.inputStream.use { inputStream ->
                         val putImageMetadata = PutObjectRequest(
-                            "",
+                            awsProperties.bucketName,
                             objectKey,
-                            it.inputStream,
+                            inputStream,
                             imageMetadata
                         )
-//                    amazonS3Client.putObject(putImageMetadata)
-                        objectKey
+
+                        awsS3Client.putObject(putImageMetadata)
+
                     }
+                    objectKey
                 }
 
-                val uploadedImageKeys = uploadJobs.awaitAll()
-
-                return@withContext uploadedImageKeys.toMutableList()
+                return uploadJobs.toMutableList()
             } catch (e: Exception) {
                 e.printStackTrace()
-                return@withContext emptyList<String>().toMutableList()
+                return emptyList<String>().toMutableList()
             }
         }
     }
@@ -67,7 +63,7 @@ class FeedService(
             throw NotFoundEntityException(String.format("not found user %s", feedDto.email))
         }
 
-        val feed = Feed.from(feedDto, account)
+        val feed = Feed.from(feedDto, account, awsProperties, awsS3Client)
         feedRepository.save(feed);
 
         return feed
