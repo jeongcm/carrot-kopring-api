@@ -1,6 +1,8 @@
 # carrot-kopring-backend-server
 ## kotlin 기반 spring 프로젝트
-
+---
+## 간단한 설명
+로그인 회원가입 (oauth2) api, s3 upload api 구현
 ---
 ## 환경
 ### jdk 17, gradle 8.3, spring boot
