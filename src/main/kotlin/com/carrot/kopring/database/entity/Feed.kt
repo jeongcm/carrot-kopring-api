@@ -1,12 +1,10 @@
 package com.carrot.kopring.database.entity
 
+import com.amazonaws.services.s3.AmazonS3
+import com.carrot.kopring.common.properties.AwsProperties
 import com.carrot.kopring.feed.dto.FeedDto
 import com.carrot.kopring.feed.service.FeedService
 import jakarta.persistence.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
@@ -39,7 +37,7 @@ class Feed(
     companion object {
 
 
-        fun from(feedDto: FeedDto, account: Account): Feed {
+        fun from(feedDto: FeedDto, account: Account, awsProperties: AwsProperties, awsS3Client: AmazonS3): Feed {
 
             val feed = Feed(
                 region = feedDto.region ?: "KOR",
@@ -49,10 +47,7 @@ class Feed(
                 account = account
             )
 
-            // image upload를 비동기 처리
-            CoroutineScope(Dispatchers.IO).launch {
-                feed.media = FeedService.uploadImage(account.email, feedDto.media)
-            }
+            feed.media = FeedService.uploadImage(account.email, feedDto.media, awsProperties, awsS3Client)
 
             return feed
         }
